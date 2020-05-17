@@ -1,0 +1,92 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 AREA             Trigo, DATA, READONLY
+    2 00000000                 export           TabSin
+    3 00000000                 export           TabCos
+    4 00000000         
+    5 00000000         TabCos
+    6 00000000 FF 7F           DCW              32767       ;  0 0x7fff  0.9999
+                                                            7
+    7 00000002 8E 67           DCW              26510       ;  1 0x678e  0.8090
+                                                            2
+    8 00000004 8E 27           DCW              10126       ;  2 0x278e  0.3090
+                                                            2
+    9 00000006 72 D8           DCW              -10126      ;  3 0xd872 -0.3090
+                                                            2
+   10 00000008 72 98           DCW              -26510      ;  4 0x9872 -0.8090
+                                                            2
+   11 0000000A 00 80           DCW              -32768      ;  5 0x8000 -1.0000
+                                                            0
+   12 0000000C 72 98           DCW              -26510      ;  6 0x9872 -0.8090
+                                                            2
+   13 0000000E 72 D8           DCW              -10126      ;  7 0xd872 -0.3090
+                                                            2
+   14 00000010 8E 27           DCW              10126       ;  8 0x278e  0.3090
+                                                            2
+   15 00000012 8E 67           DCW              26510       ;  9 0x678e  0.8090
+                                                            2
+   16 00000014         TabSin
+   17 00000014 00 00           DCW              0           ;  0 0x0000  0.0000
+                                                            0
+   18 00000016 3D 4B           DCW              19261       ;  1 0x4b3d  0.5878
+                                                            0
+   19 00000018 BC 79           DCW              31164       ;  2 0x79bc  0.9510
+                                                            5
+   20 0000001A BC 79           DCW              31164       ;  3 0x79bc  0.9510
+                                                            5
+   21 0000001C 3D 4B           DCW              19261       ;  4 0x4b3d  0.5878
+                                                            0
+   22 0000001E 00 00           DCW              0           ;  5 0x0000  0.0000
+                                                            0
+   23 00000020 C3 B4           DCW              -19261      ;  6 0xb4c3 -0.5878
+                                                            0
+   24 00000022 44 86           DCW              -31164      ;  7 0x8644 -0.9510
+                                                            5
+   25 00000024 44 86           DCW              -31164      ;  8 0x8644 -0.9510
+                                                            5
+   26 00000026 C3 B4           DCW              -19261      ;  9 0xb4c3 -0.5878
+                                                            0
+   27 00000028         
+   28 00000028                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
+ork --depend=.\obj\trigo.d -o.\obj\trigo.o -I.\RTE\_Simu -IC:\Keil_v5\ARM\PACK\
+ARM\CMSIS\5.3.0\CMSIS\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\De
+vice\Include --predefine="__EVAL SETA 1" --predefine="__MICROLIB SETA 1" --pred
+efine="__UVISION_VERSION SETA 525" --predefine="_RTE_ SETA 1" --predefine="STM3
+2F10X_MD SETA 1" --list=trigo.lst Src\trigo.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+TabCos 00000000
+
+Symbol: TabCos
+   Definitions
+      At line 5 in file Src\trigo.s
+   Uses
+      At line 3 in file Src\trigo.s
+Comment: TabCos used once
+TabSin 00000014
+
+Symbol: TabSin
+   Definitions
+      At line 16 in file Src\trigo.s
+   Uses
+      At line 2 in file Src\trigo.s
+Comment: TabSin used once
+Trigo 00000000
+
+Symbol: Trigo
+   Definitions
+      At line 1 in file Src\trigo.s
+   Uses
+      None
+Comment: Trigo unused
+3 symbols
+338 symbols in table

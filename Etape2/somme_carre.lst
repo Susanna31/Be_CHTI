@@ -1,0 +1,87 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 thumb
+    2 00000000                 area             somme_carre, code, readonly
+    3 00000000                 import           TabSin
+    4 00000000                 import           TabCos
+    5 00000000                 export           somme
+    6 00000000         ;
+    7 00000000         somme   proc
+    8 00000000         
+    9 00000000 4906            ldr              r1, =TabSin
+   10 00000002 F931 2010       ldrsh            r2, [r1, r0, lsl #1]
+   11 00000006         
+   12 00000006 4906            ldr              r1, =TabCos
+   13 00000008 F931 3010       ldrsh            r3, [r1, r0, lsl #1]
+   14 0000000C         
+   15 0000000C         ;carré sin 
+   16 0000000C FB02 F202       mul              r2, r2,r2
+   17 00000010         
+   18 00000010         ;carré cos
+   19 00000010 FB03 F303       mul              r3, r3,r3
+   20 00000014         
+   21 00000014         ;somme carré du sin et du cos
+   22 00000014 EB02 0003       add              r0, r2, r3
+   23 00000018         
+   24 00000018 4770            bx               lr
+   25 0000001A                 endp
+   26 0000001A                 end
+              00 00 00000000 
+              00000000 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
+ork --depend=.\obj\somme_carre.d -o.\obj\somme_carre.o -I.\RTE\_Simu -IC:\Keil_
+v5\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_
+DFP\2.2.0\Device\Include --predefine="__EVAL SETA 1" --predefine="__MICROLIB SE
+TA 1" --predefine="__UVISION_VERSION SETA 525" --predefine="_RTE_ SETA 1" --pre
+define="STM32F10X_MD SETA 1" --list=somme_carre.lst Src\somme_carre.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+somme 00000000
+
+Symbol: somme
+   Definitions
+      At line 7 in file Src\somme_carre.s
+   Uses
+      At line 5 in file Src\somme_carre.s
+Comment: somme used once
+somme_carre 00000000
+
+Symbol: somme_carre
+   Definitions
+      At line 2 in file Src\somme_carre.s
+   Uses
+      None
+Comment: somme_carre unused
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+TabCos 00000000
+
+Symbol: TabCos
+   Definitions
+      At line 4 in file Src\somme_carre.s
+   Uses
+      At line 12 in file Src\somme_carre.s
+Comment: TabCos used once
+TabSin 00000000
+
+Symbol: TabSin
+   Definitions
+      At line 3 in file Src\somme_carre.s
+   Uses
+      At line 9 in file Src\somme_carre.s
+Comment: TabSin used once
+2 symbols
+341 symbols in table

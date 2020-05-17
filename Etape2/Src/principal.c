@@ -1,27 +1,23 @@
 #include "gassp72.h"
-#define Periode_en_Tck 720000
+//tests fonction somme
 
-extern void timer_callback (void);
-int etat = 0x00020000;
+extern int somme(int);
 
-int main(void)
-{
-	// activation de la PLL qui multiplie la fréquence du quartz par 9
-CLOCK_Configure();
-// config port PB1 pour être utilisé en sortie
-GPIO_Configure(GPIOB, 1, OUTPUT, OUTPUT_PPULL);
-// initialisation du timer 4
-// Periode_en_Tck doit fournir la durée entre interruptions,
-// exprimée en périodes Tck de l'horloge principale du STM32 (72 MHz)
-Timer_1234_Init_ff( TIM4, Periode_en_Tck );
-// enregistrement de la fonction de traitement de l'interruption timer
-// ici le 2 est la priorité, timer_callback est l'adresse de cette fonction, a créér en asm,
-// cette fonction doit être conforme à l'AAPCS
-Active_IT_Debordement_Timer( TIM4, 2, timer_callback );
-// lancement du timer
-Run_Timer( TIM4 );
+int main(){
+
+	int min = 1;
+	int max = 0;
 	
-while	(1)
-	{
+	for( int i=0;i<10;i++ ){
+		
+		if(somme(i)>max){
+			max=somme(i);
+		}
+		
+		else if(somme(i)<min){
+			min=somme(i);
+		}
 	}
+	
+	while	(1){}
 }

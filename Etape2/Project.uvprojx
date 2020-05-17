@@ -397,9 +397,19 @@
               <FilePath>.\Src\gassp72.lib</FilePath>
             </File>
             <File>
-              <FileName>timer.s</FileName>
+              <FileName>somme_carre.s</FileName>
               <FileType>2</FileType>
-              <FilePath>.\Src\timer.s</FilePath>
+              <FilePath>.\Src\somme_carre.s</FilePath>
+            </File>
+            <File>
+              <FileName>trigo.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Src\trigo.s</FilePath>
+            </File>
+            <File>
+              <FileName>dft.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\Src\dft.s</FilePath>
             </File>
           </Files>
         </Group>

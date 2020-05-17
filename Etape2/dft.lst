@@ -1,0 +1,63 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000                 thumb
+    2 00000000                 area             dft, code, readonly
+    3 00000000                 import           TabSin
+    4 00000000                 import           TabCos
+    5 00000000                 import           TabSig
+    6 00000000                 import           somme
+    7 00000000                 export           re
+    8 00000000         ;
+    9 00000000         
+   10 00000000         re      proc
+   11 00000000         
+   12 00000000 B4F0            push{r4,         r5, r6, r7}
+   13 00000002         
+   14 00000002 490A            ldr              r1, =TabSig
+   15 00000004 F931 1014       ldrsh            r1, [r1, r4, lsl #1]
+   16 00000008 4A09            ldr              r2, =TabCos
+   17 0000000A F932 2016       ldrsh            r2, [r2, r6, lsl #1]
+   18 0000000E         ;i -> r4
+   19 0000000E 2400            movs             r4, #0
+   20 00000010         ;somme -> r5
+   21 00000010 2500            movs             r5, #0
+   22 00000012         
+   23 00000012         ;initialisation compteur boucle somme à N-1=63
+   24 00000012 273F            movs             r7, #63
+   25 00000014         
+   26 00000014         ;debut boucle somme
+   27 00000014         boucle
+   28 00000014         ;incrementation de i
+   29 00000014 3401            adds             r4, #1
+   30 00000016         ;ik -> r6
+   31 00000016 FB04 F600       mul              r6, r4, r0
+   32 0000001A         ;ik modulo N -> r6
+   33 0000001A F016 063F       ands             r6, r6, #63
+   34 0000001E         ;somme
+   35 0000001E FB01 5502       mla              r5, r1, r2, r5
+   36 00000022         ;decrementation compteur boucle somme
+   37 00000022 3F01            subs             r7, #1
+   38 00000024         ;retour debut boucle somme
+   39 00000024 DE00            cbz              r7, boucle
+   40 00000026         ;fin boucle somme
+   41 00000026         
+   42 00000026         ;valeur de retour dans r0
+   43 00000026 4628            mov              r0, r5
+   44 00000028         
+   45 00000028 BC70            pop{r4,          r5, r6}
+   46 0000002A         
+   47 0000002A 4770            bx               lr
+   48 0000002C                 endp
+   49 0000002C                 end
+              00000000 
+              00000000 
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
+ork --depend=.\obj\dft.d -o.\obj\dft.o -I.\RTE\_Simu -IC:\Keil_v5\ARM\PACK\ARM\
+CMSIS\5.3.0\CMSIS\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device
+\Include --predefine="__EVAL SETA 1" --predefine="__MICROLIB SETA 1" --predefin
+e="__UVISION_VERSION SETA 525" --predefine="_RTE_ SETA 1" --predefine="STM32F10
+X_MD SETA 1" --list=dft.lst Src\dft.s
