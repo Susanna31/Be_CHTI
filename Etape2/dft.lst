@@ -17,43 +17,45 @@ ARM Macro Assembler    Page 1
    11 00000000         
    12 00000000 B4F0            push{r4,         r5, r6, r7}
    13 00000002         
-   14 00000002 490A            ldr              r1, =TabSig
-   15 00000004 F931 1014       ldrsh            r1, [r1, r4, lsl #1]
-   16 00000008 4A09            ldr              r2, =TabCos
-   17 0000000A F932 2016       ldrsh            r2, [r2, r6, lsl #1]
+   14 00000002 490D            ldr              r1, =TabSig
+   15 00000004 F851 1014       ldr              r1, [r1, r4, lsl #1]
+   16 00000008 4A0C            ldr              r2, =TabCos
+   17 0000000A F852 2016       ldr              r2, [r2, r6, lsl #1]
    18 0000000E         ;i -> r4
-   19 0000000E 2400            movs             r4, #0
-   20 00000010         ;somme -> r5
-   21 00000010 2500            movs             r5, #0
-   22 00000012         
-   23 00000012         ;initialisation compteur boucle somme à N-1=63
-   24 00000012 273F            movs             r7, #63
-   25 00000014         
-   26 00000014         ;debut boucle somme
-   27 00000014         boucle
-   28 00000014         ;incrementation de i
-   29 00000014 3401            adds             r4, #1
-   30 00000016         ;ik -> r6
-   31 00000016 FB04 F600       mul              r6, r4, r0
-   32 0000001A         ;ik modulo N -> r6
-   33 0000001A F016 063F       ands             r6, r6, #63
-   34 0000001E         ;somme
-   35 0000001E FB01 5502       mla              r5, r1, r2, r5
-   36 00000022         ;decrementation compteur boucle somme
-   37 00000022 3F01            subs             r7, #1
-   38 00000024         ;retour debut boucle somme
-   39 00000024 DE00            cbz              r7, boucle
-   40 00000026         ;fin boucle somme
-   41 00000026         
-   42 00000026         ;valeur de retour dans r0
-   43 00000026 4628            mov              r0, r5
-   44 00000028         
-   45 00000028 BC70            pop{r4,          r5, r6}
-   46 0000002A         
-   47 0000002A 4770            bx               lr
-   48 0000002C                 endp
-   49 0000002C                 end
-              00000000 
+   19 0000000E F04F 0400       mov              r4, #0
+   20 00000012         ;somme -> r5
+   21 00000012 F04F 0500       mov              r5, #0
+   22 00000016         
+   23 00000016         ;initialisation compteur boucle somme à N-1=63
+   24 00000016 273F            movs             r7, #63
+   25 00000018         
+   26 00000018         ;debut boucle somme
+   27 00000018         boucle
+   28 00000018         ;incrementation de i
+   29 00000018 F104 0401       add              r4, #1
+   30 0000001C         ;ik -> r6
+   31 0000001C FB04 F600       mul              r6, r4, r0
+   32 00000020         ;ik modulo N -> r6
+   33 00000020 F006 063F       and              r6, r6, #63
+   34 00000024         ;somme
+   35 00000024 FB01 5502       mla              r5, r1, r2, r5
+   36 00000028         ;decrementation compteur boucle somme
+   37 00000028 F1A7 0701       sub              r7, #1
+   38 0000002C         ;retour debut boucle somme
+   39 0000002C         ;cbnz r7, boucle
+   40 0000002C 2F00            cmp              r7, #0
+   41 0000002E D1F3            bne              boucle
+   42 00000030         ;fin boucle somme
+   43 00000030         
+   44 00000030         ;valeur de retour dans r0
+   45 00000030 4628            mov              r0, r5
+   46 00000032         
+   47 00000032 BC70            pop{r4,          r5, r6}
+   48 00000034         
+   49 00000034 4770            bx               lr
+   50 00000036                 endp
+   51 00000036                 end
+              00 00 00000000 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
 ork --depend=.\obj\dft.d -o.\obj\dft.o -I.\RTE\_Simu -IC:\Keil_v5\ARM\PACK\ARM\
@@ -61,3 +63,74 @@ CMSIS\5.3.0\CMSIS\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\Device
 \Include --predefine="__EVAL SETA 1" --predefine="__MICROLIB SETA 1" --predefin
 e="__UVISION_VERSION SETA 525" --predefine="_RTE_ SETA 1" --predefine="STM32F10
 X_MD SETA 1" --list=dft.lst Src\dft.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+boucle 00000018
+
+Symbol: boucle
+   Definitions
+      At line 27 in file Src\dft.s
+   Uses
+      At line 41 in file Src\dft.s
+Comment: boucle used once
+dft 00000000
+
+Symbol: dft
+   Definitions
+      At line 2 in file Src\dft.s
+   Uses
+      None
+Comment: dft unused
+re 00000000
+
+Symbol: re
+   Definitions
+      At line 10 in file Src\dft.s
+   Uses
+      At line 7 in file Src\dft.s
+Comment: re used once
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+TabCos 00000000
+
+Symbol: TabCos
+   Definitions
+      At line 4 in file Src\dft.s
+   Uses
+      At line 16 in file Src\dft.s
+Comment: TabCos used once
+TabSig 00000000
+
+Symbol: TabSig
+   Definitions
+      At line 5 in file Src\dft.s
+   Uses
+      At line 14 in file Src\dft.s
+Comment: TabSig used once
+TabSin 00000000
+
+Symbol: TabSin
+   Definitions
+      At line 3 in file Src\dft.s
+   Uses
+      None
+Comment: TabSin unused
+somme 00000000
+
+Symbol: somme
+   Definitions
+      At line 6 in file Src\dft.s
+   Uses
+      None
+Comment: somme unused
+4 symbols
+344 symbols in table
