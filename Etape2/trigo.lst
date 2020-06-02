@@ -126,7 +126,7 @@ ARM Macro Assembler    Page 2
    60 0000006C 1D 47           DCW              18205       ; 54 0x471d  0.5555
                                                             7
    61 0000006E 34 51           DCW              20788       ; 55 0x5134  0.6344
-                                                            0
+                             3                              0
    62 00000070 82 5A           DCW              23170       ; 56 0x5a82  0.7070
 
 
@@ -253,6 +253,7 @@ ARM Macro Assembler    Page 4
   118 000000DE 9E 80           DCW              -32610      ; 47 0x809e -0.9951
                                                             8
   119 000000E0 00 80           DCW              -32768      ; 48 0x8000 -1.0000
+                         -1.0000
                                                             0
   120 000000E2 9E 80           DCW              -32610      ; 49 0x809e -0.9951
                                                             8
@@ -293,11 +294,11 @@ ARM Macro Assembler    Page 5
   135 00000100         
   136 00000100                 END
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
-ork --depend=.\obj\trigo_1.d -o.\obj\trigo_1.o -I.\RTE\_Simu -IC:\Keil_v5\ARM\P
-ACK\ARM\CMSIS\5.3.0\CMSIS\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.
-0\Device\Include --predefine="__EVAL SETA 1" --predefine="__MICROLIB SETA 1" --
-predefine="__UVISION_VERSION SETA 525" --predefine="_RTE_ SETA 1" --predefine="
-STM32F10X_MD SETA 1" --list=trigo.lst trigo.asm
+ork --depend=.\obj\trigo.d -o.\obj\trigo.o -I.\RTE\_Simu -IC:\Keil_v5\ARM\PACK\
+ARM\CMSIS\5.3.0\CMSIS\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.2.0\De
+vice\Include --predefine="__EVAL SETA 1" --predefine="__MICROLIB SETA 1" --pred
+efine="__UVISION_VERSION SETA 525" --predefine="_RTE_ SETA 1" --predefine="STM3
+2F10X_MD SETA 1" --list=trigo.lst Src\trigo.s
 
 
 
@@ -308,23 +309,23 @@ TabCos 00000000
 
 Symbol: TabCos
    Definitions
-      At line 5 in file trigo.asm
+      At line 5 in file Src\trigo.s
    Uses
-      None
-Comment: TabCos unused
+      At line 3 in file Src\trigo.s
+Comment: TabCos used once
 TabSin 00000080
 
 Symbol: TabSin
    Definitions
-      At line 70 in file trigo.asm
+      At line 70 in file Src\trigo.s
    Uses
-      None
-Comment: TabSin unused
+      At line 2 in file Src\trigo.s
+Comment: TabSin used once
 Trigo 00000000
 
 Symbol: Trigo
    Definitions
-      At line 1 in file trigo.asm
+      At line 1 in file Src\trigo.s
    Uses
       None
 Comment: Trigo unused

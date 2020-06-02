@@ -5,7 +5,7 @@ ARM Macro Assembler    Page 1
 
 
     1 00000000                 AREA             Signal, DATA, READONLY
-    2 00000000                 export           TabSig
+    2 00000000         ;export TabSig
     3 00000000         ; fonction cosinus, frequence relative 1, phase -45 degr
                        es, amplitude max
     4 00000000         ; valeurs attendues pour k = 1 :
@@ -183,7 +183,7 @@ Symbol: TabSig
    Definitions
       At line 11 in file f1p-45.asm
    Uses
-      At line 2 in file f1p-45.asm
-Comment: TabSig used once
+      None
+Comment: TabSig unused
 2 symbols
 337 symbols in table

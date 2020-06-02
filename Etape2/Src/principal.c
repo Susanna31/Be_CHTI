@@ -2,12 +2,11 @@
 //tests fonction somme
 //extern int somme(int);
 //tests dft
-extern int m2(int);
+extern int m2(int k, int*signal);
 extern int TabSig;
-extern int TabCos;
-extern int TabSin;
 
-int k; 
+
+
 
 int main(){
 
@@ -24,8 +23,8 @@ int main(){
 			min=somme(i);
 		}
 	}*/
-	k =1;
-	k = m2(k);
+	int k =24;
+	k = m2(k,&TabSig);
 	
 	while	(1){}
 }

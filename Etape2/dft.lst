@@ -8,89 +8,86 @@ ARM Macro Assembler    Page 1
     2 00000000                 area             dft, code, readonly
     3 00000000                 import           TabSin
     4 00000000                 import           TabCos
-    5 00000000                 import           TabSig
-    6 00000000                 export           re
-    7 00000000                 export           m2
-    8 00000000         ;
-    9 00000000         
-   10 00000000         ;fonction Re(k)
-   11 00000000         re      proc
-   12 00000000         
-   13 00000000 B4F0            push{r4,         r5, r6, r7}
-   14 00000002         
-   15 00000002         ;i -> r4
-   16 00000002 F04F 0400       mov              r4, #0
-   17 00000006         ;ik -> r6
-   18 00000006 F04F 0600       mov              r6, #0
-   19 0000000A         ;somme -> r5
-   20 0000000A F04F 0500       mov              r5, #0
-   21 0000000E         
-   22 0000000E         
-   23 0000000E         ;debut boucle somme
-   24 0000000E         boucle
-   25 0000000E 4A13            ldr              r2, =TabSig
-   26 00000010 F932 2014       ldrsh            r2, [r2, r4, lsl #1]
-   27 00000014 F931 7016       ldrsh            r7, [r1, r6, lsl #1]
-   28 00000018         ;somme
-   29 00000018 FB02 5508       mla              r5, r2, r8, r5
-   30 0000001C         
-   31 0000001C         ;incrementation de i
-   32 0000001C F104 0401       add              r4, #1
-   33 00000020         ;ik -> r6
-   34 00000020 FB04 F600       mul              r6, r4, r0
-   35 00000024         ;ik modulo N -> r6
-   36 00000024 F006 063F       and              r6, r6, #63
-   37 00000028         ;retour debut boucle somme
-   38 00000028 2C40            cmp              r4, #64
-   39 0000002A D1F0            bne              boucle
-   40 0000002C         ;fin boucle somme
+    5 00000000                 export           m2
+    6 00000000         ;
+    7 00000000         
+    8 00000000         ;fonction Re(k,adresse signal)
+    9 00000000         re      proc
+   10 00000000         
+   11 00000000 B4F0            push{r4,         r5, r6, r7}
+   12 00000002         
+   13 00000002         ;i -> r4
+   14 00000002 F04F 0400       mov              r4, #0
+   15 00000006         ;ik -> r6
+   16 00000006 F04F 0600       mov              r6, #0
+   17 0000000A         ;somme -> r5
+   18 0000000A F04F 0500       mov              r5, #0
+   19 0000000E         
+   20 0000000E         
+   21 0000000E         ;debut boucle somme
+   22 0000000E         boucle
+   23 0000000E F931 3014       ldrsh            r3, [r1, r4, lsl #1]
+   24 00000012 F932 7016       ldrsh            r7, [r2, r6, lsl #1]
+   25 00000016         ;somme
+   26 00000016 FB03 5507       mla              r5, r3, r7, r5
+   27 0000001A         
+   28 0000001A         ;incrementation de i
+   29 0000001A F104 0401       add              r4, #1
+   30 0000001E         ;ik -> r6
+   31 0000001E FB04 F600       mul              r6, r4, r0
+   32 00000022         ;ik modulo N -> r6
+   33 00000022 F006 063F       and              r6, r6, #63
+   34 00000026         ;retour debut boucle somme
+   35 00000026 2C40            cmp              r4, #64
+   36 00000028 D1F1            bne              boucle
+   37 0000002A         ;fin boucle somme
+   38 0000002A         
+   39 0000002A         ;valeur de retour dans r0
+   40 0000002A 4628            mov              r0, r5
    41 0000002C         
-   42 0000002C         ;valeur de retour dans r0
-   43 0000002C 4628            mov              r0, r5
-   44 0000002E E7FF            b                fin
-   45 00000030         fin
-   46 00000030 BCF0            pop{r4,          r5, r6, r7}
-   47 00000032         
-   48 00000032 4770            bx               lr
-   49 00000034                 endp
-   50 00000034         
-   51 00000034         ;fonction M2(k)
-   52 00000034         m2      proc
-   53 00000034 B530            push{r4,         r5, lr}
-   54 00000036         
-   55 00000036 4604            mov              r4, r0
-   56 00000038         
-   57 00000038         ;table cos -> r1
-   58 00000038 4909            ldr              r1, =TabCos
-   59 0000003A         ;appel fonction re
+   42 0000002C BCF0            pop{r4,          r5, r6, r7}
+   43 0000002E         
+   44 0000002E 4770            bx               lr
+   45 00000030                 endp
+   46 00000030         
+   47 00000030         
+   48 00000030         ;fonction M2(k, adresse signal)
+   49 00000030         m2      proc
+   50 00000030 B570            push{r4,         r5, r6, lr}
+   51 00000032         
+   52 00000032 4604            mov              r4, r0
+   53 00000034         
+   54 00000034         ;table cos -> r2
+   55 00000034 4A07            ldr              r2, =TabCos
+   56 00000036         ;appel fonction re
+   57 00000036 F7FF FFFE       bl               re
+   58 0000003A         ;on met le résultat au carré dans r5 et r6
+   59 0000003A FB80 5600       smull            r5, r6, r0, r0
 
 
 
 ARM Macro Assembler    Page 2 
 
 
-   60 0000003A F7FF FFFE       bl               re
-   61 0000003E         ;on met le résultat au carré dans r5
-   62 0000003E FB00 F500       mul              r5, r0, r0
-   63 00000042         
-   64 00000042 4620            mov              r0,r4
-   65 00000044         
-   66 00000044         ;table sin -> r1
-   67 00000044 4907            ldr              r1, =TabSin
-   68 00000046         ;appel fonction re
-   69 00000046 F7FF FFFE       bl               re
-   70 0000004A         ;on met au carré et on fait la somme
-   71 0000004A FB00 5500       mla              r5, r0, r0, r5
-   72 0000004E         ;on ramène le résultat à 32bits
-   73 0000004E EA4F 0015       mov              r0, r5, lsr #32
-   74 00000052 E7FF            b                finm2
-   75 00000054         finm2
-   76 00000054 E8BD 4030       pop              {r4, r5, lr}
-   77 00000058 4770            bx               lr
-   78 0000005A                 endp
-   79 0000005A                 end
+   60 0000003E         
+   61 0000003E 4620            mov              r0,r4
+   62 00000040         
+   63 00000040         ;table sin -> r2
+   64 00000040 4A05            ldr              r2, =TabSin
+   65 00000042         ;appel fonction re
+   66 00000042 F7FF FFFE       bl               re
+   67 00000046         ;on met le résultat au carré et on l'ajoute au précédent
+                       
+   68 00000046 FBC0 5600       smlal            r5, r6, r0, r0
+   69 0000004A         ;on ne renvoie que les 32 bits de poids fort stockés dan
+                       s r6
+   70 0000004A 4630            mov              r0,r6
+   71 0000004C         
+   72 0000004C E8BD 4070       pop              {r4, r5, r6, lr}
+   73 00000050 4770            bx               lr
+   74 00000052                 endp
+   75 00000052                 end
               00 00 00000000 
-              00000000 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
 ork --depend=.\obj\dft.d -o.\obj\dft.o -I.\RTE\_Simu -IC:\Keil_v5\ARM\PACK\ARM\
@@ -108,9 +105,9 @@ boucle 0000000E
 
 Symbol: boucle
    Definitions
-      At line 24 in file Src\dft.s
+      At line 22 in file Src\dft.s
    Uses
-      At line 39 in file Src\dft.s
+      At line 36 in file Src\dft.s
 Comment: boucle used once
 dft 00000000
 
@@ -120,41 +117,24 @@ Symbol: dft
    Uses
       None
 Comment: dft unused
-fin 00000030
-
-Symbol: fin
-   Definitions
-      At line 45 in file Src\dft.s
-   Uses
-      At line 44 in file Src\dft.s
-Comment: fin used once
-finm2 00000054
-
-Symbol: finm2
-   Definitions
-      At line 75 in file Src\dft.s
-   Uses
-      At line 74 in file Src\dft.s
-Comment: finm2 used once
-m2 00000034
+m2 00000030
 
 Symbol: m2
    Definitions
-      At line 52 in file Src\dft.s
+      At line 49 in file Src\dft.s
    Uses
-      At line 7 in file Src\dft.s
+      At line 5 in file Src\dft.s
 Comment: m2 used once
 re 00000000
 
 Symbol: re
    Definitions
-      At line 11 in file Src\dft.s
+      At line 9 in file Src\dft.s
    Uses
-      At line 6 in file Src\dft.s
-      At line 60 in file Src\dft.s
-      At line 69 in file Src\dft.s
+      At line 57 in file Src\dft.s
+      At line 66 in file Src\dft.s
 
-6 symbols
+4 symbols
 
 
 
@@ -167,23 +147,15 @@ Symbol: TabCos
    Definitions
       At line 4 in file Src\dft.s
    Uses
-      At line 58 in file Src\dft.s
+      At line 55 in file Src\dft.s
 Comment: TabCos used once
-TabSig 00000000
-
-Symbol: TabSig
-   Definitions
-      At line 5 in file Src\dft.s
-   Uses
-      At line 25 in file Src\dft.s
-Comment: TabSig used once
 TabSin 00000000
 
 Symbol: TabSin
    Definitions
       At line 3 in file Src\dft.s
    Uses
-      At line 67 in file Src\dft.s
+      At line 64 in file Src\dft.s
 Comment: TabSin used once
-3 symbols
-346 symbols in table
+2 symbols
+343 symbols in table

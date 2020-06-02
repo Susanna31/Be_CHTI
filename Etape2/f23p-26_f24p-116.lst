@@ -5,7 +5,7 @@ ARM Macro Assembler    Page 1
 
 
     1 00000000                 AREA             Signal, DATA, READONLY
-    2 00000000         ;export TabSig
+    2 00000000                 export           TabSig
     3 00000000         
     4 00000000         ; Fnor1 = 23.000
     5 00000000         ;   Ph1 = -26.565
@@ -198,7 +198,7 @@ Symbol: TabSig
    Definitions
       At line 24 in file f23p-26_f24p-116.asm
    Uses
-      None
-Comment: TabSig unused
+      At line 2 in file f23p-26_f24p-116.asm
+Comment: TabSig used once
 2 symbols
 337 symbols in table

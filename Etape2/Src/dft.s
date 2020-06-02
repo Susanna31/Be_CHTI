@@ -2,12 +2,10 @@
 	area dft, code, readonly
 	import TabSin
 	import TabCos
-	import TabSig
-	export re
 	export m2
 ;
 
-;fonction Re(k)
+;fonction Re(k,adresse signal)
 re proc
 	
 	push{r4, r5, r6, r7}
@@ -22,11 +20,10 @@ re proc
 	
 	;debut boucle somme
 boucle	
-	ldr r2, =TabSig
-	ldrsh r2, [r2, r4, lsl #1]
-	ldrsh r7, [r1, r6, lsl #1]
+	ldrsh r3, [r1, r4, lsl #1]
+	ldrsh r7, [r2, r6, lsl #1]
 	;somme
-	mla r5, r2, r8, r5
+	mla r5, r3, r7, r5
 	
 	;incrementation de i
 	add r4, #1
@@ -41,39 +38,38 @@ boucle
 	
 	;valeur de retour dans r0
 	mov r0, r5
-	b fin
-fin
+
 	pop{r4, r5, r6, r7}
 	
 	bx lr
 	endp
-		
-;fonction M2(k)
+	
+	
+;fonction M2(k, adresse signal)
 m2 proc
-	push{r4, r5, lr}
+	push{r4, r5, r6, lr}
 	
 	mov r4, r0
 	
-	;table cos -> r1
-	ldr r1, =TabCos
+	;table cos -> r2
+	ldr r2, =TabCos
 	;appel fonction re
 	bl re
-	;on met le résultat au carré dans r5
-	mul r5, r0, r0
+	;on met le résultat au carré dans r5 et r6
+	smull r5, r6, r0, r0
 	
 	mov r0,r4
 	
-	;table sin -> r1
-	ldr r1, =TabSin
+	;table sin -> r2
+	ldr r2, =TabSin
 	;appel fonction re
 	bl re
-	;on met au carré et on fait la somme
-	mla r5, r0, r0, r5
-	;on ramène le résultat à 32bits
-	mov r0, r5, lsr #32
-	b finm2
-finm2
-	pop {r4, r5, lr} 
+	;on met le résultat au carré et on l'ajoute au précédent
+	smlal r5, r6, r0, r0
+	;on ne renvoie que les 32 bits de poids fort stockés dans r6
+	mov r0,r6
+	
+	pop {r4, r5, r6, lr} 
 	bx lr
 	endp
 	end
